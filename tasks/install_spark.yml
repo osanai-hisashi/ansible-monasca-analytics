@@ -1,0 +1,44 @@
+---
+# Copyright (c) 2016 FUJITSU LIMITED
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not used this file except in compliance with the License. You may obtain
+# a copy of the License at:
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+
+- include: install_maven.yml
+
+- name: download spark
+  get_url: url=http://apache.claz.org/spark/spark-1.6.1/spark-1.6.1.tgz dest={{home_dir}}/spark.tgz
+
+- name: extract spark
+  unarchive: src={{home_dir}}/spark.tgz dest={{home_dir}} copy=no
+
+- name: rename spark directory
+  become: yes
+  command: mv {{home_dir}}/spark-1.6.1/ {{home_dir}}/spark
+
+- name: build spark
+  become_user: "{{monanas_user}}"
+  command: /usr/local/apache-maven-3.3.9/bin/mvn -DskipTests clean package chdir={{home_dir}}/spark
+
+- name: copy log4j.properties 
+  become: yes
+  command: cp {{home_dir}}/spark/conf/log4j.properties.template {{home_dir}}/spark/conf/log4j.properties chdir={{home_dir}}
+
+- name: modify  log4j.properties
+  command: sed -i 's/log4j.rootCategory=INFO/log4j.rootCategory=ERROR/g' {{home_dir}}/spark/conf/log4j.properties
+
+- name: configure SPARK_HOME
+  shell: echo 'export SPARK_HOME={{home_dir}}/spark' >> {{home_dir}}/.profile
+
+- name: configure PYTHONPATH
+  shell: echo 'export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH' >> {{home_dir}}/.profile

@@ -1,0 +1,37 @@
+---
+# Copyright (c) 2016 FUJITSU LIMITED
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not used this file except in compliance with the License. You may obtain
+# a copy of the License at:
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+
+- name: create .m2 folder
+  file: path={{home_dir}}/.m2  state=directory mode=0755
+
+- name: get http_proxy_user
+  shell: echo {{http_proxy.stdout}} | sed -e "s/^http:\/\/\(.*\):.*@.*\//\1/"
+  register: http_proxy_user
+
+- name: get http_proxy_pass
+  shell: echo {{http_proxy.stdout}} | sed -e "s/^http:\/\/.*:\(.*\)@.*\//\1/"
+  register: http_proxy_pass
+
+- name: get http_proxy_host
+  shell: echo {{http_proxy.stdout}} | sed -e "s/^http:\/\/.*:.*@\(.*\):.*\//\1/"
+  register: http_proxy_host
+
+- name: get http_proxy_port
+  shell: echo {{http_proxy.stdout}} | sed -e "s/^http:\/\/.*:.*@.*:\(.*\).*\//\1/"
+  register: http_proxy_port
+
+- name: create settings.xml
+  template: src=settings.xml.js2 dest={{home_dir}}/.m2/settings.xml mode=0644

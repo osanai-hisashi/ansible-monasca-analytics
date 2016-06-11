@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+    <proxies>
+    <proxy>
+        <active>true</active>
+        <protocol>http</protocol>
+        <username>{{http_proxy_user.stdout}}</username>
+        <password>{{http_proxy_pass.stdout}}</password>
+        <host>{{http_proxy_host.stdout}}</host>
+        <port>{{http_proxy_port.stdout}}</port>
+        <nonProxyHosts>localhost</nonProxyHosts>
+    </proxy>
+    </proxies>
+  </settings>
