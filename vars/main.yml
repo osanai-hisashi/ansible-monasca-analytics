@@ -15,8 +15,8 @@
 #
 
 apt_pkg:
-  - openjdk-8-jre-headless
-  - openjdk-8-jdk
+  - openjdk-7-jre-headless
+  - openjdk-7-jdk
   - python
   - python-pip
   - python-setuptools
