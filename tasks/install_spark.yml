@@ -20,6 +20,7 @@
   get_url: url=http://apache.claz.org/spark/spark-1.6.1/spark-1.6.1.tgz dest={{home_dir}}/spark.tgz
 
 - name: extract spark
+  become_user: "{{monanas_user}}"
   unarchive: src={{home_dir}}/spark.tgz dest={{home_dir}} copy=no
 
 - name: rename spark directory
