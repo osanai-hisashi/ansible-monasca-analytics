@@ -14,5 +14,5 @@
 # under the License.
 #
 
-monanas_user: mini-mon
+monanas_user: vagrant
 home_dir: "/home/{{monanas_user}}"
