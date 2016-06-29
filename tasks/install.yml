@@ -34,6 +34,7 @@
 - include: install_spark.yml
 
 - name: clone monasca-analytics
+  become_user: "{{monanas_user}}"
   git: repo=https://github.com/openstack/monasca-analytics.git dest={{home_dir}}/monasca-analytics
 
 - name: install monasca-analyticsc

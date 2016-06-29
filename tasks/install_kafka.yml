@@ -21,6 +21,7 @@
   get_url: url=http://ftp.riken.jp/net/apache/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz dest={{home_dir}}/kafka.tgz
 
 - name: extract kafka
+  become_user: "{{monanas_user}}"
   unarchive: src={{home_dir}}/kafka.tgz dest={{home_dir}} copy=no 
 
 - name: rename kafka directory
