@@ -16,8 +16,8 @@
 
 - include: install_maven.yml
 
-- name: download spark
-  get_url: url=http://apache.claz.org/spark/spark-1.6.1/spark-1.6.1.tgz dest={{home_dir}}/spark.tgz
+- name: download spark package
+  get_url: url=http://apache.claz.org/spark/spark-1.6.1/spark-1.6.1-bin-hadoop2.6.tgz dest={{home_dir}}/spark.tgz
 
 - name: extract spark
   become_user: "{{monanas_user}}"
@@ -25,17 +25,21 @@
 
 - name: rename spark directory
   become: yes
-  command: mv {{home_dir}}/spark-1.6.1/ {{home_dir}}/spark
+  command: mv {{home_dir}}/spark-1.6.1-bin-hadoop2.6/ {{home_dir}}/spark
 
-- name: build spark
+- name: create kafka directory
   become_user: "{{monanas_user}}"
-  command: /usr/local/apache-maven-3.3.9/bin/mvn -DskipTests clean package chdir={{home_dir}}/spark
+  file: path={{home_dir}}/spark/external/kafka-assembly/target/ state=directory
 
-- name: copy log4j.properties 
+- name: download spark-streaming-kafka-assembly_2.10-1.6.1.jar
+  become_user: "{{monanas_user}}"
+  get_url: url=http://search.maven.org/remotecontent?filepath=org/apache/spark/spark-streaming-kafka-assembly_2.10/1.6.1/spark-streaming-kafka-assembly_2.10-1.6.1.jar dest={{home_dir}}/spark/external/kafka-assembly/target/spark-streaming-kafka-assembly_2.10-1.6.1.jar
+
+- name: copy log4j.properties
   become: yes
   command: cp {{home_dir}}/spark/conf/log4j.properties.template {{home_dir}}/spark/conf/log4j.properties chdir={{home_dir}}
 
-- name: modify  log4j.properties
+- name: modify log4j.properties
   command: sed -i 's/log4j.rootCategory=INFO/log4j.rootCategory=ERROR/g' {{home_dir}}/spark/conf/log4j.properties
 
 - name: configure SPARK_HOME
