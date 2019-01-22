@@ -15,14 +15,14 @@
 #
 
 - name: download maven
-  get_url: url=http://mirror.reverse.net/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz dest={{home_dir}}/mvn.tar.gz
+  get_url: url=https://archive.apache.org/dist/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz dest={{home_dir}}/mvn.tar.gz
 
 - name: extract maven
   become: yes
   unarchive: src={{home_dir}}/mvn.tar.gz dest=/usr/local copy=no
 
 - name: configure path for maven
-  shell: echo 'export PATH=/usr/local/apache-maven-3.3.9/bin:$PATH' >> {{home_dir}}/.profile
+  shell: echo 'export PATH=/usr/local/apache-maven-3.5.3/bin:$PATH' >> {{home_dir}}/.profile
 
 - name: get http_proxy info
   shell: echo $http_proxy

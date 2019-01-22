@@ -1,4 +1,3 @@
----
 # Copyright (c) 2016 FUJITSU LIMITED
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -37,6 +36,6 @@
   become_user: "{{monanas_user}}"
   git: repo=https://github.com/openstack/monasca-analytics.git dest={{home_dir}}/monasca-analytics
 
-- name: install monasca-analyticsc
+- name: install monasca-analytics
   become: yes
   shell: python setup.py develop chdir={{home_dir}}/monasca-analytics
