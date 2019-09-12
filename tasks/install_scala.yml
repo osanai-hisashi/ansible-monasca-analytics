@@ -15,7 +15,7 @@
 #
 
 - name: download scala
-  shell: curl https://downloads.typesafe.com/scala/2.11.7/scala-2.11.7.deb > {{home_dir}}/scala.deb
+  shell: curl https://downloads.lightbend.com/scala/2.12.8/scala-2.12.8.deb > {{home_dir}}/scala.deb
 
 - name: install Scala
   become: yes

@@ -17,7 +17,7 @@
 - include: install_maven.yml
 
 - name: download spark
-  get_url: url=http://archive.apache.org/dist/spark/spark-2.1.0/spark-2.1.0.tgz dest={{home_dir}}/spark.tgz
+  get_url: url=http://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4.tgz dest={{home_dir}}/spark.tgz
 
 - name: extract spark
   become_user: "{{monanas_user}}"
@@ -25,11 +25,11 @@
 
 - name: rename spark directory
   become: yes
-  command: mv {{home_dir}}/spark-2.1.0/ {{home_dir}}/spark
+  command: mv {{home_dir}}/spark-2.4.4/ {{home_dir}}/spark
 
 - name: build spark
   become_user: "{{monanas_user}}"
-  command: /usr/local/apache-maven-3.5.3/bin/mvn -DskipTests clean package chdir={{home_dir}}/spark
+  command: /usr/local/apache-maven-3.5.4/bin/mvn -DskipTests clean package chdir={{home_dir}}/spark
 
 - name: copy log4j.properties 
   become: yes
